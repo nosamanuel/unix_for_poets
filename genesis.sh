@@ -56,3 +56,12 @@ grep -Ei "^(.*light.*){3,}$" genesis.txt | wc -l
 # Count verses with exactly two instances of "light"
 grep -Ei "^(.*light.*){2,}$" genesis.txt | grep -Eiv "^(.*light.*){3,}$" | wc -l
 grep -P '^((.(?!light))*(.light)(.(?!light))*){2}$' genesis.txt | wc -l
+
+# Count morphs
+aspell munch < genesis.words.txt | gsed 's/.*\s//;s/\s//g;s/\/.*$//' | sort -f | uniq -c
+
+# Count word initial consonant sequences
+gsed -r 's/^([^aeiou]*)[aeiouy].*$/\1/i' genesis.words.txt | sort -f | uniq -c
+
+# Count word final consonant sequences
+gsed -r 's/^.*[aeiouy]([^aeiouy]+)$|^.*[aeiouy]($)/\1/i' genesis.words.txt | sort -f | uniq -c
